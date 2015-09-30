@@ -100,7 +100,7 @@ body = []
 # Set up the rectangle of the apple.
 appleRect = randomRect()
 
-# Set up the screen
+# Set up the screen.
 pygame.init()
 scrHeight = 40 * blockSize
 scrWidth = 40 * blockSize
@@ -111,7 +111,7 @@ screen = pygame.display.set_mode((scrHeight, scrWidth))
 while True:
     clock.tick(10)
 
-    # Handle keyboard input. Please do not touch this logic.
+    # Handle keyboard input..
     for ev in pygame.event.get():
         if ev.type == QUIT:
             quitGame()
