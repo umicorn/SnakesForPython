@@ -73,11 +73,13 @@ def draw(oldRect, hasEaten):
     # Draw the body.
     for block in body:
         pygame.draw.rect(screen, (0, 155, 0), block)
-    pygame.draw.rect(screen, (255, 0, 0), appleRect)
 
     # If we have not eaten, we need to clear the old rectangle.
     if (not hasEaten):
         pygame.draw.rect(screen, (0, 0, 0), oldRect)
+
+    # Draw the apple.
+    pygame.draw.rect(screen, (255, 0, 0), appleRect)
 
 
 # Direction traveled is encoded as an integer.
