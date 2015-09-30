@@ -2,6 +2,11 @@ import pygame, sys
 from random import randint
 from pygame.locals import *
 
+# Useful debug method.
+def printRect(name, rect):
+    print name + " Top-left: (" + str(rect.left) + ", " + str(oldPiece.top) + ")"
+
+
 # Code for if snake runs into itself or game exits.
 def quitGame():
     sys.exit(0)
@@ -10,25 +15,27 @@ def moveHead(headRect, dir):
     if dir == 1:
         deltaX = blockSize
     elif dir == 3:
-        deltaX = blockSize
+        deltaX = -blockSize
     else:
         deltaX = 0
 
     if dir == 0:
-        deltaY = -blockSize
-    elif dir == 2:
         deltaY = blockSize
+    elif dir == 2:
+        deltaY = -blockSize
     else:
         deltaY = 0
-    headRect.move(deltaX, deltaY)
-    return headRect
+
+    newRect= headRect.move(deltaX, deltaY)
+    # printRect("Rect after moving: ", newRect)
+    return newRect
 
 # Accepts two Rects as input.
 # Move from to to's location.
 def moveBody(toRect, fromRect):
     deltaX = toRect.left - fromRect.left
     deltaY = toRect.top - fromRect.top
-    fromRect.move(deltaX, deltaY)
+    return fromRect.move(deltaX, deltaY)
 
 # Creates a random rectangle.
 def randomRect():
@@ -79,19 +86,20 @@ screen = pygame.display.set_mode((scrHeight, scrWidth))
 # This loop is interesting. When will it stop running?
 while True:
     clock.tick(10)
+
     # Handle keyboard input. Please do not touch this logic.
     for ev in pygame.event.get():
         if ev.type == QUIT:
             quitGame()
         # Handle directions. What does the logic say? What will it prevent?
         elif ev.type == KEYDOWN:
-            if ev.key == K_UP and direction != 0:
+            if ev.key == K_UP and (not body or direction != 0):
                 direction = 2
-            elif ev.key == K_DOWN and direction != 2:
+            elif ev.key == K_DOWN and (not body or direction != 2):
                 direction = 0
-            elif ev.key == K_LEFT and direction != 1:
+            elif ev.key == K_LEFT and (not body or direction != 1):
                 direction = 3
-            elif ev.key == K_RIGHT and direction != 3:
+            elif ev.key == K_RIGHT and (not body or direction != 3):
                 direction = 1
     # Copy the old Rect.
     oldPiece = head.copy()
@@ -101,13 +109,13 @@ while True:
     # Update the snake's body (excluding the head).
     for i in range(0, len(body)):
         temp = body[i].copy()
-        moveBody(oldPiece, body[i])
+        body[i] = moveBody(oldPiece, body[i])
         oldPiece = temp
 
     # If the snake collides with itself, end the game.
     # Else, if we eat an apple, generate a new apple and add another block (at oldPiece) to the snake
     hasEaten = head.colliderect(appleRect)
-    if (head.collidelist(body)):
+    if (head.collidelist(body) != -1):
         print "Collided with body"
         quitGame()
     if (head.colliderect(appleRect)):
@@ -115,6 +123,7 @@ while True:
         body.append(oldPiece)
 
     draw(oldPiece, hasEaten)
+    pygame.display.flip()
 
 
 
