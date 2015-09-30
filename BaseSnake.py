@@ -2,15 +2,39 @@ import pygame, sys
 from random import randint
 from pygame.locals import *
 
-# Useful debug method.
-def printRect(name, rect):
-    print name + " Top-left: (" + str(rect.left) + ", " + str(oldPiece.top) + ")"
+# Python Lesssson #1: Introduction to Python
+# Snake is one of the earliest video games in video game history.
+# You control a snake with the directional arrows (left, right, up, down) and grow as you eat.
+# If you bump into a wall or part of yourself, you lose! (Or at least, you should!
+# You can learn more about this game here: https://en.wikipedia.org/wiki/Snake_(video_game)
 
+# Comments are preceded by a pound sign (#).
+# There will be commented blocks with questions throughout the code.
+# These questions come in two flavors:
+#     Questions starting with Q X.Y: expect answers. Answer them in comments below them.
+#     Questions starting with ? may be covered in discussion. Discuss with your partner and be prepared to share
+#     your answers with the class.
+
+# You are not expected to read this code from the top-down. Jump around the code. Try to make sense of it.
+# Try to change code. Be prepared to share your findings.
+
+# Code preceded by "def" are called functions. They are very similar to methods in Java.
+# Q 1.1: How is Java different than Python (try to get at least 5 differences)?
+# Q 1.2: In Java, what is a method?
+# Q 1.3: How does a Python function look different than a Java method?
+
+# Useful debug method. Text is a string, rect is a Rect.
+def printRect(text, rect):
+    print text + " Top-left: (" + str(rect.left) + ", " + str(oldPiece.top) + ")"
 
 # Code for if snake runs into itself or game exits.
 def quitGame():
+    print "Game over!"
+    # How can we measure the player's score?
+    print "Your score is: "
     sys.exit(0)
 
+# Code to move the head.
 def moveHead(headRect, dir):
     if dir == 1:
         deltaX = blockSize
@@ -27,8 +51,9 @@ def moveHead(headRect, dir):
         deltaY = 0
 
     newRect= headRect.move(deltaX, deltaY)
-    # printRect("Rect after moving: ", newRect)
     return newRect
+
+# Q 1.4 What do you think return means?
 
 # Accepts two Rects as input.
 # Move from to to's location.
@@ -67,14 +92,13 @@ yBound = 20
 
 # The head and body of the snake.
 head = Rect(20 * blockSize, 20 * blockSize, blockSize, blockSize)
-# The body of the snake does not contain the head.
+# The body of the snake is different than the head.
+# These brackets indicate that there is a list.
+# Informal Question:
 body = []
 
 # Set up the rectangle of the apple.
 appleRect = randomRect()
-
-# How much food eaten.
-score = 0
 
 # Set up the screen
 pygame.init()
@@ -115,12 +139,15 @@ while True:
     # If the snake collides with itself, end the game.
     # Else, if we eat an apple, generate a new apple and add another block (at oldPiece) to the snake
     hasEaten = head.colliderect(appleRect)
+    # Checks if the head collides with pieces in the body.
     if (head.collidelist(body) != -1):
         print "Collided with body"
-        quitGame()
+        # What should we do if a snake crashes into itself?
+    # Checks if the head collides with the body.
     if (head.colliderect(appleRect)):
         appleRect = randomRect()
         body.append(oldPiece)
+    # What should
 
     draw(oldPiece, hasEaten)
     pygame.display.flip()
