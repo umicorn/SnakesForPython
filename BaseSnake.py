@@ -12,7 +12,7 @@ from pygame.locals import *
 # There will be commented blocks with questions throughout the code.
 # These questions come in two flavors:
 #     Questions starting with Q X.Y: expect answers. Answer them in comments below them.
-#     Questions starting with ? may be covered in discussion. Discuss with your partner and be prepared to share
+#     Questions unmarked may be covered in discussion. Discuss with your partner and be prepared to share
 #     your answers with the class.
 
 # You are not expected to read this code from the top-down. Jump around the code. Try to make sense of it.
@@ -147,7 +147,7 @@ while True:
     if (head.colliderect(appleRect)):
         appleRect = randomRect()
         body.append(oldPiece)
-    # What should
+    # How could we keep a snake from going off the screen?
 
     draw(oldPiece, hasEaten)
     pygame.display.flip()
